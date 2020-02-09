@@ -11,14 +11,15 @@ let player = {
     newDirection: new V2(0, 0),
 };
 
-var walls;
+let walls;
+let textures = ["██", " ●", " ○", "▀▀", "  "];
 
 let canvas = document.getElementById("canvas");
 let counter = document.getElementById("counter");
 
 
 function tick() {
-    move();
+    player.move();
     render();
     t += 1;
 }
@@ -47,7 +48,8 @@ function legal(position) {
 
 function render() {
     let output = walls.map(wall => wall.slice());
-    output[player.position.y][player.position.x] = "X";
+    output = output.map(line => line.map(char => textures[char]));
+    output[player.position.y][player.position.x] = " X";
     output = output.map(line => line.join("")).join("\n");
     canvas.innerHTML = output;
     counter.innerHTML = (
@@ -69,7 +71,8 @@ function main() {
     function onLoad() {
         let boardData = this.responseText;
         walls = setupBoard(boardData);
-        window.setInterval(tick, 100);
+        console.log(walls);
+        window.setInterval(tick, 80);
     }
     loadBoard(onLoad);
 }
