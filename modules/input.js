@@ -9,10 +9,11 @@ function keydown(event) {
         case "ArrowRight":
             return new V2(1, 0);
         case "ArrowUp":
-            return new V2(0, 1);
-        case "ArrowDown":
             return new V2(0, -1);
+        case "ArrowDown":
+            return new V2(0, 1);
     }
+    return false;
 }
 
 
