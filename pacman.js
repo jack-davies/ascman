@@ -9,6 +9,19 @@ let player = {
     position: new V2(23, 13),
     direction: new V2(0, 0),
     newDirection: new V2(0, 0),
+
+    move: function() {
+        let newPosition = this.position.add(this.newDirection);
+        if (legal(newPosition)) {
+            this.direction = this.newDirection;
+            this.position = newPosition;
+        } else {
+            newPosition = this.position.add(this.direction);
+            if (legal(newPosition)) {
+                this.position = newPosition;
+            }
+        }
+    }
 };
 
 let walls;
@@ -22,19 +35,6 @@ function tick() {
     player.move();
     render();
     t += 1;
-}
-
-function move() {
-    let newPosition = player.position.add(player.newDirection);
-    if (legal(newPosition)) {
-        player.direction = player.newDirection;
-        player.position = newPosition;
-    } else {
-        newPosition = player.position.add(player.direction);
-        if (legal(newPosition)) {
-            player.position = newPosition;
-        }
-    }
 }
 
 function legal(position) {
