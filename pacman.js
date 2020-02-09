@@ -38,7 +38,8 @@ function move() {
 
 function legal(position) {
     try {
-        return walls[position.y][position.x] !== 0;
+        let wall = walls[position.y][position.x];
+        return wall !== 0 && wall !== undefined;
     } catch {
         return false;
     }
