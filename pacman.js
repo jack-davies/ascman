@@ -1,20 +1,17 @@
 "use strict";
 import { V2 } from "./modules/vector.js";
 import { keydown } from "./modules/input.js";
+import { loadBoard, setupBoard } from "./modules/board.js";
 
 
 let t = 0;
 let player = {
-    position: new V2(0, 0),
-    direction: new V2(0, 0)
+    position: new V2(23, 13),
+    direction: new V2(0, 0),
+    newDirection: new V2(0, 0),
 };
 
-let walls = [
-    [0,0,0,1],
-    [1,1,0,1],
-    [0,0,0,1],
-    [0,1,1,1]
-];
+var walls;
 
 let canvas = document.getElementById("canvas");
 let counter = document.getElementById("counter");
@@ -27,15 +24,21 @@ function tick() {
 }
 
 function move() {
-    let newPosition = player.position.add(player.direction);
+    let newPosition = player.position.add(player.newDirection);
     if (legal(newPosition)) {
+        player.direction = player.newDirection;
         player.position = newPosition;
+    } else {
+        newPosition = player.position.add(player.direction);
+        if (legal(newPosition)) {
+            player.position = newPosition;
+        }
     }
 }
 
 function legal(position) {
     try {
-        return walls[position.y][position.x] === 0;
+        return walls[position.y][position.x] !== 0;
     } catch {
         return false;
     }
@@ -55,11 +58,19 @@ function render() {
 
 
 function main() {
+    // add controls
     window.addEventListener("keydown", function(event) {
         let newDirection = keydown(event);
-        if (newDirection) player.direction = newDirection;
+        if (newDirection) player.newDirection = newDirection;
     });
-    window.setInterval(tick, 100);
+
+    // begin
+    function onLoad() {
+        let boardData = this.responseText;
+        walls = setupBoard(boardData);
+        window.setInterval(tick, 100);
+    }
+    loadBoard(onLoad);
 }
 
 main();

@@ -2,13 +2,13 @@
 
 
 class V2 {
-    constructor(x, y) {
+    constructor(y, x) {
         this.x = x;
         this.y = y;
     }
 
     add(vector) {
-        return new V2(this.x + vector.x, this.y + vector.y);
+        return new V2(this.y + vector.y, this.x + vector.x);
     }
 
     show() {
