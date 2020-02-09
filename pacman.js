@@ -22,8 +22,7 @@ function tick() {
 }
 
 function render() {
-    let output = walls.map(wall => wall.slice());
-    output = output.map(line => line.map(char => textures[char]));
+    let output = walls.map(line => line.map(char => textures[char]));
     output[player.position.y][player.position.x] = " C";
     output[enemy.position.y][enemy.position.x] = " X";
     output = output.map(line => line.join("")).join("\n");
