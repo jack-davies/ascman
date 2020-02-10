@@ -5,6 +5,7 @@ import { Player, Enemy } from "./modules/characters.js";
 
 
 let t = 0;
+let ticker;
 let walls;
 let player;
 let enemy;
@@ -18,6 +19,10 @@ function tick() {
     player.move();
     enemy.move();
     render();
+    if (player.eaten === 284) {
+        window.clearInterval(ticker);
+        window.alert("winner winner chicken dinner");
+    }
     t += 1;
 }
 
@@ -29,6 +34,7 @@ function render() {
     canvas.innerHTML = output;
     counter.innerHTML = (
         "tick: " + t + 
+        "\neaten: " + player.eaten +
         "\nplayer: " + player.position.show() +
         "\ndirection: " + player.direction.show()
     );
@@ -48,7 +54,7 @@ function main() {
         walls = setupBoard(boardData);
         player = new Player(23, 13, walls);
         enemy = new Enemy(11, 12, walls);
-        window.setInterval(tick, 80);
+        ticker = window.setInterval(tick, 80);
     }
     loadBoard(onLoad);
 }

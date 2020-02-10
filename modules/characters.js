@@ -24,7 +24,7 @@ class Player {
         this.direction = new V2(0, 0);
         this.newDirection = new V2(0, 0);
         this.walls = walls;
-        console.log(this);
+        this.eaten = 0;
     }
 
     move() {
@@ -38,6 +38,21 @@ class Player {
                 this.position = newPosition;
             }
         }
+        this.eat();
+    }
+
+    eat() {
+        if (this.walls[this.position.y][this.position.x] === 1) {
+            this.walls[this.position.y][this.position.x] = 4;
+            this.eaten += 1;
+        } else if (this.walls[this.position.y][this.position.x] === 2) {
+            this.walls[this.position.y][this.position.x] = 4;
+            this.powerup();
+        }
+    }
+
+    powerup() {
+
     }
 };
 
